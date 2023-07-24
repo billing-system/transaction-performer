@@ -55,7 +55,7 @@ public class TransactionsHandler {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     private void tryPerformingTransactions() {
         List<BillingTransaction> dbTransactionsToPerform =
-                transactionRepository.findTransactionsInStatusesWaitingToBeSentOrFailure();
+                transactionRepository.findByTransactionStatus(DbTransactionStatus.WAITING_TO_BE_SENT);
 
         if (dbTransactionsToPerform.isEmpty()) {
             logger.log(Level.FINE, "No transaction is required to be performed");
